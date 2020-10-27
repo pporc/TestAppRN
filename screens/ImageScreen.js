@@ -1,28 +1,42 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {
   Image,
-  ActivityIndicator,
   View,
   StyleSheet,
   Dimensions,
+  ActivityIndicator,
 } from 'react-native';
 
 const win = Dimensions.get('window');
 
 export const ImageScreen = ({route}) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   return (
     <View style={styles.imageContainer}>
+      <ActivityIndicator
+        style={isLoading ? styles.loader : styles.loaderEnd}
+        size="large"
+        color="#999999"
+      />
       <Image
         source={{uri: route.params.url}}
         resizeMode={'contain'}
-        style={styles.image}
+        style={isLoading ? styles.imageLoading : styles.image}
+        onLoadStart={() => setIsLoading(true)}
+        onLoadEnd={(e) => setIsLoading(false)}
       />
-      {/* <ActivityIndicator size="large" color="#757575" /> */}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  loader: {
+    flex: 1,
+  },
+  loaderEnd: {
+    display: 'none',
+  },
   imageContainer: {
     flex: 1,
   },
@@ -31,5 +45,8 @@ const styles = StyleSheet.create({
     alignSelf: 'stretch',
     width: win.width,
     height: win.height,
+  },
+  imageLoading: {
+    display: 'none',
   },
 });

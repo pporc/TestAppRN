@@ -5,19 +5,37 @@ import {useNavigation} from '@react-navigation/native';
 export const ListItem = ({img, name, description}) => {
   const navigation = useNavigation();
   return (
-    <TouchableOpacity
-      onPress={() => navigation.navigate('Image', {url: img.small})}
-      style={styles.listItem}>
-      <Image source={{uri: img.thumb}} style={{width: 100, height: 100}} />
+    <View style={styles.listItem}>
+      <TouchableOpacity
+        onPress={() => navigation.navigate('Image', {url: img.small})}>
+        <Image source={{uri: img.thumb}} style={styles.image} />
+      </TouchableOpacity>
       <View style={styles.descriptionBlock}>
-        <Text>Author: {name}</Text>
-        {description && <Text>Description: {description}</Text>}
+        <Text>
+          <Text style={styles.key}>Author:</Text> {name}
+        </Text>
+        {description && (
+          <Text>
+            <Text style={styles.key}>Description: </Text>
+            {description}
+          </Text>
+        )}
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };
 
 const styles = StyleSheet.create({
+  key: {
+    color: '#717171',
+  },
+  name: {
+    fontWeight: 'bold',
+  },
+  image: {
+    width: 100,
+    height: 100,
+  },
   listItem: {
     display: 'flex',
     flexDirection: 'row',
